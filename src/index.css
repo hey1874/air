@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+::-webkit-scrollbar { display: none; }
+
+body {
+    -ms-overflow-style: none; scrollbar-width: none;
+    background-color: #333; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; padding: 40px 0; margin: 0;
+    position: relative;
+}
+
+.app-container {
+    width: 390px; height: 844px;
+    background-color: #f4f5f9; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border-radius: 40px;
+    transform-origin: top center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.zoom-controller {
+    position: fixed; top: 20px; left: 20px; background: #222; border: 1px solid #444; border-radius: 16px;
+    padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); z-index: 9999;
+}
+
+.zoom-btn {
+    width: 36px; height: 36px; background: #444; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+    font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.2s; border: none;
+}
+.zoom-btn:hover { background: #555; transform: scale(1.05); }
+.zoom-btn:active { transform: scale(0.95); }
+
+.glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.gradient-text { background: linear-gradient(to right, #4a4a4a, #1a1a1a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+.sidebar-item { transition: all 0.2s ease; }
+.sidebar-item.active { background-color: #f4f5f9; font-weight: bold; color: #1a1a1a; }
+.sidebar-item.active::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 16px; background-color: #3b82f6; border-radius: 0 4px 4px 0; }
+.sidebar-item.active i { color: #3b82f6; transform: scale(1.1); }
+
+.form-modal { display: none; position: absolute; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
+.form-modal.show { display: flex; opacity: 1; }
+.form-content { background: #fff; width: 90%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); max-height: 80vh; display: flex; flex-direction: column; overflow: hidden; position: relative;}
+.form-header { padding: 20px 20px 10px; flex-shrink: 0; border-bottom: 1px solid #eee; text-align: center; font-weight: bold; font-size: 18px; color: #333; }
+.form-body { padding: 20px; overflow-y: auto; flex: 1; }
+.form-footer { padding: 15px 20px 20px; border-top: 1px solid #eee; display: flex; gap: 10px; flex-shrink: 0; background: #fff; }
+
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; font-size: 12px; color: #666; margin-bottom: 6px; }
+.form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+.form-group input:focus { border-color: #3b82f6; }
+.form-btn { flex: 1; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; }
+.btn-cancel { background: #f0f0f0; color: #666; }
+.btn-submit { background: #3b82f6; color: #fff; }
+
+.detail-page { width: 100%; height: 100%; background: #fff; display: flex; flex-direction: column; border-radius: 0; }
+.detail-header { padding: 20px 20px 15px; display: flex; align-items: center; justify-content: space-between; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 10; }
+.detail-scroll-area { flex: 1; overflow-y: auto; }
+
+.choice-item { padding: 15px; border: 1px solid #eee; border-radius: 10px; margin-bottom: 10px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: background 0.2s; }
+.choice-item:active { background: #f4f5f7; }
+
+.image-modal { display: none; position: absolute; z-index: 3500; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; cursor: pointer; }
+.image-modal.show { display: flex; opacity: 1; }
+.image-modal img { max-width: 90%; max-height: 80%; border-radius: 16px; transform: scale(0.8); transition: transform 0.3s; cursor: default; }
+.image-modal.show img { transform: scale(1); }
+
+.pk-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.pk-table th, .pk-table td { padding: 10px 5px; text-align: center; border-bottom: 1px solid #eee; font-size: 12px; }
+.pk-table th { color: #666; font-weight: normal; background: #f9f9f9; width: 25%; }
+.pk-table td { width: 37.5%; color: #333; }
+.pk-winner { color: #ff4d4f !important; font-weight: 900 !important; background: #fff1f0; border-radius: 4px; }
+
+.excel-modal-container { position: fixed; inset: 0; z-index: 10000; display: none; flex-direction: column; background: #f9fafb; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; }
+.excel-table { border-collapse: separate; border-spacing: 0; white-space: nowrap; }
+.excel-table th, .excel-table td { border-bottom: 1px solid #e5e7eb; border-right: 1px solid #e5e7eb; padding: 0; min-width: 120px; height: 50px; }
+.excel-table th { background-color: #f8fafc; position: sticky; top: 0; z-index: 10; font-weight: 600; color: #475569; padding: 8px; border-top: 1px solid #e5e7eb; }
+.excel-table th:nth-child(1), .excel-table td:nth-child(1) { position: sticky; left: 0; background-color: #f8fafc; z-index: 5; min-width: 140px; width: 140px; text-align: center; }
+.excel-table th:nth-child(2), .excel-table td:nth-child(2) { position: sticky; left: 140px; background-color: #ffffff; z-index: 5; min-width: 80px; width: 80px; }
+.excel-table th:nth-child(1) { z-index: 15; background-color: #f8fafc; }
+.excel-table th:nth-child(2) { z-index: 15; background-color: #f8fafc; left: 140px; }
+
+.excel-input { width: 100%; height: 100%; border: none; outline: none; background: transparent; padding: 8px; font-size: 13px; color: #1e293b; box-sizing: border-box; }
+.excel-input:focus { background: #eff6ff; box-shadow: inset 0 0 0 2px #3b82f6; border-radius: 2px; }
+
+.excel-modal-container ::-webkit-scrollbar { width: 10px; height: 10px; display: block; }
+.excel-modal-container ::-webkit-scrollbar-track { background: #f1f1f1; }
+.excel-modal-container ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 5px; }
+.excel-modal-container ::-webkit-scrollbar-thumb:hover { background: #a8a8a8; }
+
+#toast-container { position: fixed; top: 20px; right: 20px; z-index: 20000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: #333; color: white; padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-size: 14px; opacity: 0; transform: translateY(-20px); transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); display: flex; align-items: center; gap: 8px;}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.error { background: #ef4444; }
+.toast.success { background: #10b981; }
